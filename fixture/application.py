@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from fixture.session import SessionHelper
 # from selenium.common.exceptions import NoSuchElementException
 # from selenium.common.exceptions import NoAlertPresentException
 
@@ -8,13 +9,11 @@ class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(30)
+        self.session = SessionHelper(self)
         # self.base_url = "https://www.google.com/"
         # self.verificationErrors = []
         # self.accept_next_alert = True
 
-    def logout(self):
-        driver = self.driver
-        driver.find_element(By.LINK_TEXT, value="Logout").click()
 
     def return_to_groups_page(self):
         driver = self.driver
@@ -40,16 +39,6 @@ class Application:
         driver = self.driver
         driver.find_element(By.LINK_TEXT, value="groups").click()
 
-    def login(self, username, password):
-        driver = self.driver
-        self.open_home_page()
-        driver.find_element(By.NAME, value="user").click()
-        driver.find_element(By.NAME, value="user").clear()
-        driver.find_element(By.NAME, value="user").send_keys(username)
-        driver.find_element(By.NAME, value="pass").click()
-        driver.find_element(By.NAME, value="pass").clear()
-        driver.find_element(By.NAME, value="pass").send_keys(password)
-        driver.find_element(By.XPATH, value='//*[@id="LoginForm"]/input[3]').click()
 
     def open_home_page(self):
         driver = self.driver
