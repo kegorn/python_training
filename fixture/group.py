@@ -4,9 +4,10 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
-    def return_to_groups_page(self):
+
+    def open_groups_page(self):
         driver = self.app.driver
-        driver.find_element(By.LINK_TEXT, value="group page").click()
+        driver.find_element(By.LINK_TEXT, value="groups").click()
 
     def create(self, group):
         driver = self.app.driver
@@ -24,6 +25,13 @@ class GroupHelper:
         driver.find_element(By.NAME, value="submit").click()
         self.return_to_groups_page()
 
-    def open_groups_page(self):
+    def delete_first_group(self):
         driver = self.app.driver
-        driver.find_element(By.LINK_TEXT, value="groups").click()
+        self.open_groups_page()
+        driver.find_element(By.NAME, value="selected[]").click()
+        driver.find_element(By.NAME, value="delete").click()
+        self.return_to_groups_page()
+
+    def return_to_groups_page(self):
+        driver = self.app.driver
+        driver.find_element(By.LINK_TEXT, value="group page").click()
