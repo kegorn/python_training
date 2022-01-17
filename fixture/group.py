@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
 
+
 class GroupHelper:
     def __init__(self, app):
         self.app = app
-
 
     def open_groups_page(self):
         driver = self.app.driver
@@ -22,7 +22,6 @@ class GroupHelper:
         self.change_field_value("group_name", group.name)
         self.change_field_value("group_header", group.header)
         self.change_field_value("group_footer", group.footer)
-
 
     def change_field_value(self, field_name, text):
         driver = self.app.driver
@@ -53,8 +52,6 @@ class GroupHelper:
         # submit modification
         driver.find_element(By.NAME, value='update').click()
         self.return_to_groups_page()
-
-
 
     def return_to_groups_page(self):
         driver = self.app.driver
