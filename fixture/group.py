@@ -7,7 +7,8 @@ class GroupHelper:
 
     def open_groups_page(self):
         driver = self.app.driver
-        driver.find_element(By.LINK_TEXT, value="groups").click()
+        if not (driver.current_url.endswith("/groups.php") and len(driver.find_elements(By.NAME, value="new")) > 0):
+            driver.find_element(By.LINK_TEXT, value="groups").click()
 
     def create(self, group):
         driver = self.app.driver
@@ -45,12 +46,16 @@ class GroupHelper:
         self.open_groups_page()
         self.select_first_group()
         # open modification form
-        driver.find_element(By.NAME, value='edit').click()
+        self.edit_selected_group()
         # fill group form
         self.fill_group_form(group=new_group_data)
         # submit modification
         driver.find_element(By.NAME, value='update').click()
         self.return_to_groups_page()
+
+    def edit_selected_group(self):
+        driver = self.app.driver
+        driver.find_element(By.NAME, value='edit').click()
 
     def return_to_groups_page(self):
         driver = self.app.driver
@@ -60,4 +65,20 @@ class GroupHelper:
         driver = self.app.driver
         self.open_groups_page()
         return len(driver.find_elements(By.NAME, value="selected[]"))
+
+    def check_first_group(self, group):
+        self.open_groups_page()
+        self.select_first_group()
+        self.edit_selected_group()
+        self.verifiy_field_value("group_name", group.name)
+        self.verifiy_field_value("group_header", group.header)
+        self.verifiy_field_value("group_footer", group.footer)
+
+    def verifiy_field_value(self, field_name, field_text):
+        driver = self.app.driver
+        if field_text is not None:
+            return driver.find_element(By.NAME, value=field_name).get_attribute("value") == field_text
+        #return False
+
+
 
